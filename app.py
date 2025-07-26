@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import math
 import random
 import re
+import os
 from math import factorial
 
 app = Flask(__name__)
@@ -18,7 +19,7 @@ def safe_eval(expr):
         close_p = expr.count(')')
         expr += ')' * (open_p - close_p)
 
-        # ✅ Strip leading zeros from whole numbers (e.g., 0963 → 963)
+        # ✅ Strip leading zeros from whole numbers
         expr = re.sub(r'\b0+([1-9]\d*)', r'\1', expr)
 
         # ✅ Angle mode logic
@@ -50,7 +51,6 @@ def safe_eval(expr):
             "__builtins__": {}
         }
 
-        # ✅ Evaluate
         result = eval(expr, {"__builtins__": {}}, allowed_names)
 
         # ✅ Clean float artifacts
@@ -96,5 +96,5 @@ def toggle_angle_mode():
     return jsonify({"angle_mode": angle_mode})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
-
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
