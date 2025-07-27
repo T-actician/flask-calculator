@@ -157,22 +157,31 @@ button:active {
     }
 
     .buttons {
-        grid-template-columns: repeat(4, 1fr);
-        overflow-y: auto;
+        grid-template-columns: repeat(4, 1fr); /* ✅ 4-column tighter grid */
+        grid-gap: 4px;
         flex-grow: 1;
+        overflow-y: auto;
+        padding-right: 2px;
+        padding-left: 2px;
     }
 
     button {
-        height: 45px;
-        font-size: 16px;
+        height: 40px;         /* ✅ Slightly smaller */
+        font-size: 14px;      /* ✅ Tighter text */
+    }
+
+    .history-container {
+        max-height: 60px;     /* ✅ Smaller but still readable */
+        padding-top: 5px;
     }
 
     .history-header {
-        font-size: 14px;
+        font-size: 13px;
+        padding: 2px 0;
     }
 
     .history {
-        font-size: 12px;
-        max-height: 60px;
+        font-size: 11px;
+        max-height: 45px;
     }
 }
