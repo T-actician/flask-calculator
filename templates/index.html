@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Candy Calculator</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-    <div class="calculator">
-        <input type="text" id="display" readonly>
-        <div class="buttons">
-            <button>(</button><button>)</button><button>CE</button><button>C</button>
-            <button>√</button><button>,</button><button>1</button><button>2</button>
-            <button>3</button><button>4</button><button>/</button><button>*</button>
-            <button>5</button><button>6</button><button>7</button><button>8</button>
-            <button>Ans</button><button>.</button><button>9</button><button>0</button><button>+</button>
-            <button>-</button><button>x²</button><button>x³</button><button>xʸ</button><button>1/x</button>
-            <button>π</button><button>e</button><button>x!</button>
-            <button>log</button><button>sin</button><button>cos</button><button>tan</button>
-            <button>nCr</button><button>nPr</button><button>Ran#</button>
-            <button>RanInt</button><button>M+</button><button>MR</button><button>MC</button><button>DEG</button>
-            <button>=</button>
-        </div>
-        <div class="history-container">
-            <div class="history-header">History</div>
-            <div class="history" id="history"></div>
-        </div>
-    </div>
+    <!-- Optional Canvas Background (can be removed if handled by p5.js) -->
+    <canvas id="math-canvas"></canvas>
 
+    <main>
+        <div class="calculator">
+            <input type="text" id="display" readonly />
+            <div class="buttons">
+                <button>(</button><button>)</button><button>CE</button><button>C</button>
+                <button>√</button><button>,</button><button>1</button><button>2</button>
+                <button>3</button><button>4</button><button>/</button><button>*</button>
+                <button>5</button><button>6</button><button>7</button><button>8</button>
+                <button>Ans</button><button>.</button><button>9</button><button>0</button><button>+</button>
+                <button>-</button><button>x²</button><button>x³</button><button>xʸ</button><button>1/x</button>
+                <button>π</button><button>e</button><button>x!</button>
+                <button>log</button><button>sin</button><button>cos</button><button>tan</button>
+                <button>nCr</button><button>nPr</button><button>Ran#</button>
+                <button>RanInt</button><button>M+</button><button>MR</button><button>MC</button>
+                <button id="angle-toggle">DEG</button>
+                <button>=</button>
+            </div>
+            <div class="history-container">
+                <div class="history-header">History</div>
+                <div class="history" id="history"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
     <script src="/static/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     <script src="/static/math-bg.js"></script>
