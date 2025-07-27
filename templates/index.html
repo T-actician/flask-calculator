@@ -6,7 +6,6 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Candy Calculator</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
 </head>
 <body>
     <div class="calculator">
@@ -21,7 +20,7 @@
             <button>π</button><button>e</button><button>x!</button>
             <button>log</button><button>sin</button><button>cos</button><button>tan</button>
             <button>nCr</button><button>nPr</button><button>Ran#</button>
-            <button>RanInt</button><button>M+</button><button>MR</button><button>MC</button><button>DEG</button>
+            <button>RanInt</button><button>M+</button><button>MR</button><button>MC</button><button id="angle-toggle">DEG</button>
             <button>=</button>
         </div>
         <div class="history-container">
@@ -30,12 +29,22 @@
         </div>
     </div>
 
+    <!-- Core JS -->
     <script src="/static/script.js"></script>
+
+    <!-- Background Loader -->
     <script>
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        const script = document.createElement("script");
-        script.src = isMobile ? "/static/math-bg-mobile.js" : "/static/math-bg.js";
-        document.body.appendChild(script);
+        const p5Script = document.createElement("script");
+        p5Script.src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js";
+        p5Script.onload = () => {
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            const bgScript = document.createElement("script");
+            bgScript.src = isMobile ? "/static/math-bg-mobile.js" : "/static/math-bg.js";
+            bgScript.type = "text/javascript";
+            bgScript.onerror = () => console.error("❌ Failed to load background script:", bgScript.src);
+            document.body.appendChild(bgScript);
+        };
+        document.head.appendChild(p5Script);
     </script>
 </body>
 </html>
