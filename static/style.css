@@ -1,12 +1,21 @@
-body {
-    background: #ffffff;
+/* === GLOBAL DESKTOP STYLES === */
+body, html {
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+body {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
+    align-items: flex-start;
+    background: #000; /* Let p5.js draw on top */
+    padding-top: 30px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 0;
 }
 
 .calculator {
@@ -17,10 +26,12 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     max-width: 400px;
     width: 95%;
-    max-height: 90vh;              /* ✅ Prevent calculator from overflowing screen */
-    overflow: hidden;
+    z-index: 1;
+    position: relative;
     display: flex;
     flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
 }
 
 #display {
@@ -30,7 +41,6 @@ body {
     margin-bottom: 10px;
     text-align: right;
     padding: 0 10px;
-    box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #40e0d0;
@@ -42,10 +52,9 @@ body {
 .buttons {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-gap: 5px;
-    flex: 1 0 auto;
+    gap: 5px;
+    flex-grow: 1;
     overflow-y: auto;
-    padding-bottom: 5px;
 }
 
 button {
@@ -73,10 +82,9 @@ button:hover {
 }
 
 .history-container {
-    flex-shrink: 0;
-    max-height: 120px;            /* ✅ Stay within calculator */
-    overflow-y: auto;             /* ✅ Allow scrolling */
     margin-top: 10px;
+    max-height: 120px;
+    overflow-y: auto;
     border-top: 4px solid;
     border-image: linear-gradient(to right, #ff8b94, #a8e6cf, #ffd97d, #a0c4ff) 1;
     padding-top: 10px;
@@ -88,8 +96,6 @@ button:hover {
     font-weight: bold;
     font-size: 16px;
     text-align: center;
-    color: #141313;
-    margin-bottom: 5px;
     background: linear-gradient(to right, #ff8b9542, #a8b3e6, #8a7dffad, #ffa0b4);
     color: black;
     border-radius: 5px;
@@ -109,28 +115,22 @@ button:hover {
     font-weight: bold;
 }
 
-/* ✅ MOBILE RESPONSIVENESS */
+/* === RESPONSIVE MOBILE STYLES === */
 @media (max-width: 480px) {
     html, body {
-        margin: 0;
         padding: 0;
-        height: 100vh;
-        width: 100vw;
+        margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #ffffff;
-        box-sizing: border-box;
+        height: 100vh;
     }
 
     .calculator {
         width: 90%;
-        height: 75vh;
-        max-height: 75vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
+        max-height: 90vh;
+        height: auto;
+        padding: 10px;
     }
 
     #display {
@@ -140,8 +140,6 @@ button:hover {
 
     .buttons {
         grid-template-columns: repeat(4, 1fr);
-        overflow-y: auto;
-        flex-grow: 1;
     }
 
     button {
