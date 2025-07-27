@@ -115,15 +115,18 @@ button:hover {
         margin: 0;
         padding: 0;
         height: 100vh;
+        width: 100vw;
         display: flex;
+        flex-direction: column; /* 👈 Keeps content structure */
         justify-content: center;
         align-items: center;
         background: #ffffff;
+        box-sizing: border-box;
     }
 
     .calculator {
         width: 90%;
-        height: 75vh; /* ✅ Occupies 75% of screen height */
+        height: 75vh;
         max-height: 75vh;
         display: flex;
         flex-direction: column;
