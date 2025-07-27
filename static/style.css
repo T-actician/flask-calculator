@@ -139,16 +139,14 @@ button:active {
         align-items: center;
         background: transparent;
         box-sizing: border-box;
+        overflow: hidden;
     }
 
     .calculator {
-        width: 90%;
-        height: 75vh;
-        max-height: 75vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
+        transform: scale(0.85); /* ✅ Shrinks the entire calculator */
+        transform-origin: top center;
+        height: auto;
+        max-height: none;
     }
 
     #display {
@@ -157,31 +155,29 @@ button:active {
     }
 
     .buttons {
-        grid-template-columns: repeat(4, 1fr); /* ✅ 4-column tighter grid */
-        grid-gap: 4px;
-        flex-grow: 1;
-        overflow-y: auto;
-        padding-right: 2px;
-        padding-left: 2px;
+        grid-template-columns: repeat(6, 1fr); /* ✅ Preserve 6-column layout */
+        grid-gap: 5px;
+        overflow: hidden;
+        flex-grow: 0;
     }
 
     button {
-        height: 40px;         /* ✅ Slightly smaller */
-        font-size: 14px;      /* ✅ Tighter text */
+        height: 45px;
+        font-size: 15px;
     }
 
     .history-container {
-        max-height: 60px;     /* ✅ Smaller but still readable */
+        max-height: 80px;
         padding-top: 5px;
     }
 
     .history-header {
         font-size: 13px;
-        padding: 2px 0;
+        padding: 3px 0;
     }
 
     .history {
-        font-size: 11px;
-        max-height: 45px;
+        font-size: 12px;
+        max-height: 65px;
     }
 }
