@@ -5,23 +5,26 @@ let justEvaluated = false;
 let usedAns = false;
 let last_result = "0";
 
+// Bind button clicks
 document.querySelectorAll("button").forEach(btn => {
     if (btn.id !== "angle-toggle") {
         btn.addEventListener("click", () => handleInput(btn.textContent));
     }
 });
 
+// Handle angle toggle
 const angleToggle = document.getElementById("angle-toggle");
 if (angleToggle) {
     angleToggle.addEventListener("click", () => {
         fetch("/angle/toggle", { method: "POST" })
-        .then(res => res.json())
-        .then(data => {
-            angleToggle.textContent = data.angle_mode;
-        });
+            .then(res => res.json())
+            .then(data => {
+                angleToggle.textContent = data.angle_mode;
+            });
     });
 }
 
+// Keyboard support
 document.addEventListener("keydown", (event) => {
     const key = event.key.toLowerCase();
 
@@ -41,8 +44,7 @@ document.addEventListener("keydown", (event) => {
         display.value += "Ans";
         usedAns = true;
     } else if (key === "^") {
-        const lastChar = expression.slice(-1);
-        if (/[0-9eπ)]/.test(lastChar) && !display.value.endsWith("^")) {
+        if (/[0-9eπ)]/.test(expression.slice(-1)) && !display.value.endsWith("^")) {
             expression += "**";
             display.value += "^";
         }
@@ -96,8 +98,7 @@ function prepAfterAns(symbol, real = null) {
 }
 
 function insertImpliedMultiply() {
-    const lastChar = expression.slice(-1);
-    if (/[0-9.)]/.test(lastChar)) {
+    if (/[0-9.)]/.test(expression.slice(-1))) {
         expression += "*";
         display.value += "*";
     }
@@ -168,9 +169,6 @@ function handleInput(val) {
         display.value += "MR";
     } else if (val === "MC") {
         fetch("/memory/clear", { method: "POST" });
-    } else if (val === ",") {
-        expression += ",";
-        display.value += ",";
     } else {
         smartClearIfNeeded();
         expression += val;
@@ -179,7 +177,11 @@ function handleInput(val) {
 }
 
 function cleanDisplayForHistory(displayVal) {
-    return displayVal.replace(/(\^)+/g, "^").replace(/(³)+/g, "³").replace(/\*+/g, "*").replace(/\*$/g, "");
+    return displayVal
+        .replace(/(\^)+/g, "^")
+        .replace(/(³)+/g, "³")
+        .replace(/\*+/g, "*")
+        .replace(/\*$/g, "");
 }
 
 function calculate() {
@@ -198,16 +200,16 @@ function calculate() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ expression: expression })
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.result !== "Error") {
-            last_result = data.result.toString();
-        }
+        .then(res => res.json())
+        .then(data => {
+            if (data.result !== "Error") {
+                last_result = data.result.toString();
+            }
 
-        history.innerHTML += `<div>${cleanDisplay} = ${data.result}</div>`;
-        display.value = data.result;
-        expression = data.result.toString();
-        justEvaluated = true;
-        usedAns = false;
-    });
+            history.innerHTML += `<div>${cleanDisplay} = ${data.result}</div>`;
+            display.value = data.result;
+            expression = data.result.toString();
+            justEvaluated = true;
+            usedAns = false;
+        });
 }
