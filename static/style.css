@@ -7,20 +7,13 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #0f0f33, #001122);
-    background-size: 300% 300%;
-    animation: bgShift 18s ease infinite;
+    background: url('/static/images/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
     overflow: hidden;
     position: relative;
 }
 
 /* === Animated Background === */
-@keyframes bgShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
 .background-effects {
     position: fixed;
     top: 0;
@@ -162,7 +155,6 @@ button:active {
         display: flex;
         justify-content: center;
         align-items: center;
-        background: transparent;
         box-sizing: border-box;
         overflow: hidden;
     }
