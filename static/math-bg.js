@@ -4,55 +4,59 @@ let waveOffset = 0;
 let floatingEquations = [];
 let rockets = [];
 
+let isMobile = /Mobi|Android/i.test(navigator.userAgent);
+let lastActive = Date.now();
+
 function setup() {
     let canvas = createCanvas(windowWidth, windowHeight);
     canvas.position(0, 0);
     canvas.style('z-index', '-1');
     canvas.style('position', 'fixed');
 
-    const eqTexts = [
-        "E = mc²", "∫x dx", "sin(θ)", "f(x) = x²", "π ≈ 3.14",
-        "cos(2x)", "x = (-b ± √Δ)/2a", "Σn=1^∞", "∂²ψ/∂x²",
-        "lim x→0", "∆V = IR", "θ = ωt", "y = mx + c",
-        "V = 4/3πr³", "A = πr²", "F = ma", "tan(x)", 
-        "∫e^x dx", "a² + b² = c²", "∇ • E = ρ/ε₀",
-        "λ = h/p", "∂u/∂t = α∇²u", "ΔS ≥ 0", "Q = mcΔT"
-    ];
-
-    for (let i = 0; i < 40; i++) {
-        floatingEquations.push({
-            x: random(width),
-            y: random(height),
-            speedX: random(-0.3, 0.3),
-            speedY: random(-0.2, 0.2),
-            text: random(eqTexts),
-            size: random(14, 24),
-            alpha: 255,
-            ttl: random(300, 800)
-        });
-    }
-
-    for (let i = 0; i < 100; i++) {
-        particles.push({
-            angle: random(TWO_PI),
-            radius: random(30, 80),
-            speed: random(0.01, 0.03)
-        });
+    if (isMobile) {
+        frameRate(30);
+        reduceGraphicsForMobile();
+    } else {
+        for (let i = 0; i < 40; i++) spawnNewEquation();
+        for (let i = 0; i < 100; i++) {
+            particles.push({
+                angle: random(TWO_PI),
+                radius: random(30, 80),
+                speed: random(0.01, 0.03)
+            });
+        }
     }
 }
 
 function draw() {
+    if (isMobile && Date.now() - lastActive > 20000) return; // ⏸️ pause on idle (20s)
+
     background(15, 15, 25, 100);
 
     drawGrid();
     drawFloatingEquations();
     drawWaves();
     drawOrbitingParticles();
-    drawMouseSparkles();
+
+    if (!isMobile) drawMouseSparkles();
     drawRockets();
 
     if (frameCount % 200 === 0) {
         launchRocket();
+    }
+}
+
+function reduceGraphicsForMobile() {
+    floatingEquations = [];
+    rockets = [];
+
+    for (let i = 0; i < 20; i++) spawnNewEquation();
+    for (let i = 0; i < 40; i++) {
+        particles.push({
+            angle: random(TWO_PI),
+            radius: random(20, 60),
+            speed: random(0.01, 0.025)
+        });
     }
 }
 
@@ -94,6 +98,7 @@ function spawnNewEquation() {
         "∫e^x dx", "a² + b² = c²", "∇ • E = ρ/ε₀",
         "λ = h/p", "∂u/∂t = α∇²u", "ΔS ≥ 0", "Q = mcΔT"
     ];
+
     floatingEquations.push({
         x: random(width),
         y: random(height),
@@ -175,21 +180,18 @@ function drawRockets() {
         r.y += r.speedY;
         r.trail.push({ x: r.x, y: r.y + 20 });
 
-        // Rocket body
         stroke(255, 0, 0);
-        strokeWeight(4); // ← rocket thickness
-        line(r.x, r.y, r.x, r.y + 20); // ← rocket length
+        strokeWeight(4);
+        line(r.x, r.y, r.x, r.y + 20);
 
-        // Rocket fire
         noStroke();
         fill(255, 200, 0);
-        ellipse(r.x, r.y + 20, 8, 8); // ← fire size
+        ellipse(r.x, r.y + 20, 8, 8);
 
-        // Rocket trail
         for (let t = 0; t < r.trail.length; t++) {
             let pt = r.trail[t];
             fill(255, 200, 0, 150 - t * 10);
-            ellipse(pt.x, pt.y, 4); // ← trail puff size
+            point(pt.x, pt.y); // 🔁 Lighter than ellipse()
         }
 
         if (r.y < -20) rockets.splice(i, 1);
@@ -199,3 +201,7 @@ function drawRockets() {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
+
+document.addEventListener("touchstart", () => {
+    lastActive = Date.now(); // 🔄 wake up after idle
+});

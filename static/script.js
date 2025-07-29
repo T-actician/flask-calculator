@@ -36,6 +36,7 @@ document.addEventListener("keydown", (event) => {
         usedAns = false;
     } else if (key === "a") {
         smartClearIfNeeded();
+        insertImpliedMultiply();
         expression += last_result;
         display.value += "Ans";
         usedAns = true;
@@ -105,6 +106,12 @@ function insertImpliedMultiply() {
 function handleInput(val) {
     if (val === "=") {
         calculate();
+    } else if (val === "Ans") {
+        smartClearIfNeeded();
+        insertImpliedMultiply();
+        expression += last_result;
+        display.value += "Ans";
+        usedAns = true;
     } else if (val === "C") {
         expression = "";
         display.value = "";

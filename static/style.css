@@ -7,17 +7,48 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: transparent; /* ✅ Show canvas animation */
+    background: linear-gradient(135deg, #0f0f33, #001122);
+    background-size: 300% 300%;
+    animation: bgShift 18s ease infinite;
     overflow: hidden;
     position: relative;
 }
 
-/* ✅ Make canvas stay behind everything */
-canvas {
-    position: fixed !important;
+/* === Animated Background === */
+@keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.background-effects {
+    position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
     z-index: -1;
+}
+
+.floating-math {
+    position: absolute;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.3);
+    animation: floatUp 20s linear infinite;
+    white-space: nowrap;
+}
+
+.floating-math:nth-child(1) { top: 80%; left: 10%; animation-delay: 0s; }
+.floating-math:nth-child(2) { top: 90%; left: 25%; animation-delay: 2s; }
+.floating-math:nth-child(3) { top: 100%; left: 40%; animation-delay: 4s; }
+.floating-math:nth-child(4) { top: 85%; left: 60%; animation-delay: 1s; }
+.floating-math:nth-child(5) { top: 95%; left: 75%; animation-delay: 3s; }
+.floating-math:nth-child(6) { top: 105%; left: 85%; animation-delay: 5s; }
+
+@keyframes floatUp {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-120vh); }
 }
 
 /* === Calculator Layout === */
@@ -121,12 +152,6 @@ button:active {
     padding: 5px;
 }
 
-/* === Special Button (DEG/ANS) === */
-#angle-toggle {
-    background-color: #bdb2ff;
-    font-weight: bold;
-}
-
 /* === Mobile Responsiveness === */
 @media (max-width: 480px) {
     html, body {
@@ -143,7 +168,7 @@ button:active {
     }
 
     .calculator {
-        transform: scale(0.85); /* ✅ Shrinks the entire calculator */
+        transform: scale(0.85);
         transform-origin: top center;
         height: auto;
         max-height: none;
@@ -155,7 +180,7 @@ button:active {
     }
 
     .buttons {
-        grid-template-columns: repeat(6, 1fr); /* ✅ Preserve 6-column layout */
+        grid-template-columns: repeat(6, 1fr);
         grid-gap: 5px;
         overflow: hidden;
         flex-grow: 0;
