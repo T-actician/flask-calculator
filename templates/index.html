@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Candy Calculator</title>
   <link rel="stylesheet" href="/static/style.css" />
+  <link rel="manifest" href="/static/manifest.json" />
+  <link rel="icon" href="/static/icon-192.png" />
+  <meta name="theme-color" content="#0f0f33">
+
 </head>
 <body>
   <!-- ✨ Floating Equations Background -->
@@ -43,5 +47,13 @@
   </div>
 
   <script src="/static/script.js"></script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/static/service-worker.js')
+      .then(reg => console.log('✅ Service Worker Registered:', reg))
+      .catch(err => console.error('❌ SW registration failed:', err));
+  }
+  </script>
+
 </body>
 </html>
